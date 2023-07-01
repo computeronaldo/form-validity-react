@@ -10,9 +10,7 @@ const BasicForm = (props) => {
     valueInputClasses: firstNameInputClasses,
     inputValueIsTouched: firstNameInputValueIsTouched,
     changeEnteredValue: firstNameInputValueChanged,
-  } = useInput((name) => {
-    return name.trim() !== "";
-  });
+  } = useInput((name) => name.trim() !== "");
 
   const {
     value: enteredLastName,
@@ -23,9 +21,7 @@ const BasicForm = (props) => {
     valueInputClasses: lastNameInputClasses,
     inputValueIsTouched: lastNameInputValueIsTouched,
     changeEnteredValue: lastNameInputValueChanged,
-  } = useInput((name) => {
-    return name.trim() !== "";
-  });
+  } = useInput((name) => name.trim() !== "");
 
   const {
     value: enteredEmail,
@@ -36,9 +32,7 @@ const BasicForm = (props) => {
     valueInputClasses: emailInputClasses,
     inputValueIsTouched: emailInputValueIsTouched,
     changeEnteredValue: emailValueChanged,
-  } = useInput((email) => {
-    return email.includes("@");
-  });
+  } = useInput((email) => email.includes("@"));
 
   let formIsValid = false;
 
@@ -91,7 +85,7 @@ const BasicForm = (props) => {
           <p className="error-text">First name field cannot be empty.</p>
         )}
         <div className={lastNameClasses}>
-          <label htmlFor="last-name">First Name</label>
+          <label htmlFor="last-name">Last Name</label>
           <input
             type="text"
             id="last-name"

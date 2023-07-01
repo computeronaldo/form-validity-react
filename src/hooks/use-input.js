@@ -1,32 +1,57 @@
-import { useState } from "react";
+import { useReducer } from "react";
+
+const initialInputState = {
+  value: "",
+  isTouched: false,
+};
+
+const inputStateReducer = (state, action) => {
+  if (action.type === "INPUT") {
+    return {
+      ...state,
+      value: action.value,
+    };
+  } else if (action.type === "BLUR") {
+    return {
+      ...state,
+      isTouched: action.value,
+    };
+  }
+  return {
+    value: "",
+    isTouched: false,
+  };
+};
 
 const useInput = (validateValue) => {
-  const [enteredValue, setEnteredValue] = useState("");
-  const [isTouched, setIsTouched] = useState(false);
+  const [inputState, dispatchFn] = useReducer(
+    inputStateReducer,
+    initialInputState
+  );
 
-  const valueIsValid = validateValue(enteredValue);
-  const hasError = !valueIsValid && isTouched;
+  const valueIsValid = validateValue(inputState.value);
+  const hasError = !valueIsValid && inputState.isTouched;
 
   const inputValueIsTouched = (value) => {
-    setIsTouched(value);
+    dispatchFn({ type: "BLUR", value: value });
   };
 
   const changeEnteredValue = (value) => {
-    setEnteredValue(value);
+    dispatchFn({ type: "INPUT", value: value });
   };
 
   const valueInputChangeHandler = (e) => {
-    setEnteredValue(e.target.value);
+    dispatchFn({ type: "INPUT", value: e.target.value });
   };
 
   const valueInputBlurHandler = (e) => {
-    setIsTouched(true);
+    dispatchFn({ type: "BLUR", value: true });
   };
 
   const valueInputClasses = hasError ? "form-control invalid" : "form-control";
 
   return {
-    value: enteredValue,
+    value: inputState.value,
     hasError,
     valueIsValid,
     valueInputChangeHandler,
